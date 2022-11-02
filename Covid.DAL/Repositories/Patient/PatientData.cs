@@ -5,44 +5,48 @@ namespace Covid.DAL.Repositories
 {
     public class PatientData : IPatientData
     {
-        public List<Patient> getPatient()
-        {
-            return PatientList.ToList();
-        }
-        public Patient getPatient(int id)
-        {
-            return PatientList.FirstOrDefault(x => x.id == id);
-        }
-        public List<Patient> AddPatient(Patient data)
-        {
-            PatientList.Add(data);
-            return PatientList.ToList();
-        }
+        #region Crud Operation on Patient Data
+            // Get All vaccinated Patient List 
+            public List<Patient> getPatient()
+            {
+                return PatientList.ToList();
+            }
+            // Get vaccinated Patient by Id
+            public Patient getPatient(int id)
+            {
+                return PatientList.FirstOrDefault(x => x.id == id) ?? new Patient();
+            }
+            public List<Patient> AddPatient(Patient data)
+            {
+                PatientList.Add(data);
+                return PatientList.ToList();
+            }
 
-        public Patient UpdatePatient(int id,Patient data)
-        {
-            var PatientData = PatientList.FirstOrDefault(x => x.id == id);
-            if (PatientData != null)
+            public Patient UpdatePatient(int id,Patient data)
             {
-                PatientData = data;
+                var PatientData = PatientList.FirstOrDefault(x => x.id == id);
+                if (PatientData != null)
+                {
+                    PatientData = data;
+                }
+                return PatientData ?? new Patient();
             }
-            return PatientData;
-        }
-        public string DeletePatient(int id)
-        {
-            if (id != null)
+            public string DeletePatient(int id)
             {
-                PatientList.Remove(PatientList.FirstOrDefault(x => x.id == id));
-                return "Successfull";
-            }
-            else
-            {
-                return "Not Data found";
-            }
+                if (id != 0)
+                {
+                    PatientList.Remove(PatientList.FirstOrDefault(x => x.id == id));
+                    return "Successfull";
+                }
+                else
+                {
+                    return "Not Data found";
+                }
             
-        }
-
-
+            }
+        #endregion
+        //User Data is Put in List because in there is requirment for database
+        //Patient List Data
         List<Patient> PatientList = new List<Patient> {
             new Patient
             {
